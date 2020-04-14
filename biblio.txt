@@ -1,0 +1,6 @@
+1: https://dzone.com/articles/top-10-most-popular-ai-models
+2: https://www.techopedia.com/definition/33264/hidden-layer-neural-networks
+3: https://towardsdatascience.com/understanding-neural-networks-from-neuron-to-rnn-cnn-and-deep-learning-cd88e90e0a90
+4: https://missinglink.ai/guides/neural-network-concepts/7-types-neural-network-activation-functions-right/
+5: Muckenhirn, Hannah, et al. "Understanding and Visualizing Raw Waveform-based CNNs." Proceedings of Interspeech. No. CONF. 2019.
+6: Farsal, Wissal, Samir Anter, and Mohammed Ramdani. "Deep learning: An overview." Proceedings of the 12th International Conference on Intelligent Systems: Theories and Applications. 2018.
