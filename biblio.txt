@@ -4,3 +4,4 @@
 4: https://missinglink.ai/guides/neural-network-concepts/7-types-neural-network-activation-functions-right/
 5: Muckenhirn, Hannah, et al. "Understanding and Visualizing Raw Waveform-based CNNs." Proceedings of Interspeech. No. CONF. 2019.
 6: Farsal, Wissal, Samir Anter, and Mohammed Ramdani. "Deep learning: An overview." Proceedings of the 12th International Conference on Intelligent Systems: Theories and Applications. 2018.
+7: https://medium.com/@jaimejcheng/hot-dog-or-not-a-lesson-on-image-classification-using-convolutional-neural-networks-a2b92e81f4ad
