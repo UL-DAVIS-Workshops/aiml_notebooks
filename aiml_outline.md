@@ -22,21 +22,71 @@
 
 For this workshop, we are not going to create a machine learning model from scratch. However, we will dive into the parts that make up a deep learning model, with code examples, to hopefully remove some of the mystery behind them. The tool we are using, Keras, provides the flexibility to use commonly used models or to design your own models. In this workshop we will focus on image classification using a convolution neural network. If you are unfamiliar with the term convolution, we will describe it in more detail below.
 
+## Why are we using Keras and Python in this workshop?
+Keras' website describes itself as Deep learning for humans. Keras is an API designed for human beings, not machines. Keras follows best practices for reducing cognitive load: it offers consistent & simple APIs, it minimizes the number of user actions required for common use cases, and it provides clear & actionable error messages. It also has extensive documentation and developer guides.
+
+ - Keras is a central port of the tightly-connected TensorFlow 2.0 ecosystem, covering every step of the machine learning workflow.
+ - Keras is used by CERN, NASA, NIH, and many more scientific organizations around the world.
+ - Keras has the low-level flexibility to implement arbitrary research ideas while offering optional high-level convenience features to speed up experimentation cycles.
+
+Python is currently one of the most used programming languages in the scientific and machine learning development communities. Distributions like Anaconda bundle commonly used libraries and tools, and minimizes the hassle of finding and installing those that are not bundled. It is also the language in which to interact with Keras.
+
 ## What makes up a Convolution Neural Network (CNN)?
 A CNN is comprised of an input layer, many hidden layers, and an output layer
 TODO: add example image
 ### Layers
 #### Neurons / Activation Functions
-Choosing the right activation function for the model is important.
-There are different activation functions with each its limitations and
-advantages over the others.
-- Sigmoid outputs are not zero-centered which slows down the learning. [1]
+Activation functions are mathematical equations that determine the output of a neural network. The function is attached to each neuron in the network, and determines whether it should be activated (“fired”) or not, based on whether each neuron’s input is relevant for the model’s prediction. Activation functions also help normalize the output of each neuron to a range between 1 and 0 or between -1 and 1. [[2](https://missinglink.ai/guides/neural-network-concepts/7-types-neural-network-activation-functions-right/)]
+
+The activation function is a mathematical “gate” in between the input feeding the current neuron and its output going to the next layer. It can be as simple as a step function that turns the neuron output on and off, depending on a rule or threshold. Or it can be a transformation that maps the input signals into output signals that are needed for the neural network to function. [[2](https://missinglink.ai/guides/neural-network-concepts/7-types-neural-network-activation-functions-right/)]
+
+![Neuron / activation function](./figures/activationfunction-1.png)
+
+Common activation functions include:
+- Sigmoid outputs are not zero-centered which slows down the learning. [[1](https://doi.org/10.1145/3289402.3289538)]
+  ```python
+  import matplotlib.pyplot as plt 
+  import numpy as np 
+  x = np.linspace(-10, 10, 100) 
+  z = 1/(1 + np.exp(-x)) 
+  
+  plt.plot(x, z) 
+  plt.xlabel("x") 
+  plt.ylabel("Sigmoid(X)") 
+  
+  plt.show() 
+  ```
+  ![Sigmoid activation function](./figures/sigmoid.png)
 - tanh tends to be expensive to compute and has the same problem as Sigmoid of killing
-  the gradients when saturated. The advantage over sigmoid is that it is zero centered. [1]
-- ReLU is the most common activation function, it presents many advantages over the
+  the gradients when saturated. The advantage over sigmoid is that it is zero centered. [[1](https://doi.org/10.1145/3289402.3289538)]
+  ```python
+  import matplotlib.pyplot as plt 
+  import numpy as np
+  x = np.linspace(-10, 10, 100) 
+  z = np.tanh(x)
+  
+  plt.plot(x, z) 
+  plt.xlabel("x") 
+  plt.ylabel("Tanh(X)") 
+  
+  plt.show() 
+  ```
+  ![Tanh activation function](./figures/tanh.png)
+- Rectified Linear Unit (ReLU) is the most common activation function, it presents many advantages over the
   precedent activation functions. First of all, it is extremely simple to compute, converges
   faster than sigmoid and Tanh and it does not saturate. Besides, it is more biologically
-  plausible and closer to biological firing of neurons. [1]
+  plausible and closer to biological firing of neurons. [[1](https://doi.org/10.1145/3289402.3289538)]
+  ```python
+  x = np.linspace(-10, 10, 100) 
+  z = np.maximum(0,x)
+
+  plt.plot(x, z) 
+  plt.xlabel("x") 
+  plt.ylabel("ReLU(X)") 
+  
+  plt.show()
+  ```
+  ![Rectified Linear Unit activation function](./figures/relu.png)
 #### Kernels
 - class of algorithms for pattern analysis
 - from mathematics, a weighting function for a weighted sum or integral
@@ -190,4 +240,5 @@ We will be using an existing model in Keras along with weightings from ImageNet
 
 
 # References
-[1] - Deep Learning - An Overview
+1. "Deep Learning: An Overview" - https://doi.org/10.1145/3289402.3289538
+2. "7 Types of Neural Network Activation Functions: How to Choose?" - https://missinglink.ai/guides/neural-network-concepts/7-types-neural-network-activation-functions-right/
