@@ -81,8 +81,104 @@ https://towardsdatascience.com/intuitively-understanding-convolutions-for-deep-l
 
 - Keras has the flexibility to allow us to build up the parts of a machine learning model and its layers.
   https://keras.io/examples/vision/image_classification_from_scratch/ (Build a model section)
-- Keras also has common models built-in that we can leverage:
+  ```python
+  def make_model(input_shape, num_classes):
+    inputs = keras.Input(shape=input_shape)
+    # Image augmentation block
+    x = data_augmentation(inputs)
+
+    # Entry block
+    x = layers.experimental.preprocessing.Rescaling(1.0 / 255)(x)
+    x = layers.Conv2D(32, 3, strides=2, padding="same")(x)
+    x = layers.BatchNormalization()(x)
+    x = layers.Activation("relu")(x)
+
+    x = layers.Conv2D(64, 3, padding="same")(x)
+    x = layers.BatchNormalization()(x)
+    x = layers.Activation("relu")(x)
+
+    previous_block_activation = x  # Set aside residual
+
+    for size in [128, 256, 512, 728]:
+        x = layers.Activation("relu")(x)
+        x = layers.SeparableConv2D(size, 3, padding="same")(x)
+        x = layers.BatchNormalization()(x)
+
+        x = layers.Activation("relu")(x)
+        x = layers.SeparableConv2D(size, 3, padding="same")(x)
+        x = layers.BatchNormalization()(x)
+
+        x = layers.MaxPooling2D(3, strides=2, padding="same")(x)
+
+        # Project residual
+        residual = layers.Conv2D(size, 1, strides=2, padding="same")(
+            previous_block_activation
+        )
+        x = layers.add([x, residual])  # Add back residual
+        previous_block_activation = x  # Set aside next residual
+
+    x = layers.SeparableConv2D(1024, 3, padding="same")(x)
+    x = layers.BatchNormalization()(x)
+    x = layers.Activation("relu")(x)
+
+    x = layers.GlobalAveragePooling2D()(x)
+    if num_classes == 2:
+        activation = "sigmoid"
+        units = 1
+    else:
+        activation = "softmax"
+        units = num_classes
+
+    x = layers.Dropout(0.5)(x)
+    outputs = layers.Dense(units, activation=activation)(x)
+    return keras.Model(inputs, outputs)
+
+
+  model = make_model(input_shape=image_size + (3,), num_classes=2)
+  keras.utils.plot_model(model, show_shapes=True)
+  ```
+- Keras also has common models built-in that we can use:
   https://keras.io/api/applications/
+  | Model             | Reference | 
+  | -----             | --------- | 
+  | Xception          | [Xception: Deep Learning with Depthwise Separable Convolutions ](https://arxiv.org/abs/1610.02357) (CVPR 2017) | 
+  | VGG16             | [Very Deep Convolutional Networks for Large-Scale Image Recognition](https://arxiv.org/abs/1409.1556) (ICLR 2015) | 
+  | VGG19             | [Very Deep Convolutional Networks for Large-Scale Image Recognition](https://arxiv.org/abs/1409.1556) (ICLR 2015) | 
+  | ResNet50          | [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385) (CVPR 2015) | 
+  | ResNet101         | [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385) (CVPR 2015) | 
+  | ResNet152         | [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385) (CVPR 2015) | 
+  | ResNet50V2        | [Identity Mappings in Deep Residual Networks](https://arxiv.org/abs/1603.05027) (CVPR 2016) | 
+  | ResNet101V2       | [Identity Mappings in Deep Residual Networks](https://arxiv.org/abs/1603.05027) (CVPR 2016) | 
+  | ResNet152V2       | [Identity Mappings in Deep Residual Networks](https://arxiv.org/abs/1603.05027) (CVPR 2016) | 
+  | InceptionV3       | [Rethinking the Inception Architecture for Computer Vision](http://arxiv.org/abs/1512.00567) (CVPR 2016) | 
+  | InceptionResNetV2 | [Inception-v4, Inception-ResNet and the Impact of Residual Connections on Learning](https://arxiv.org/abs/1602.07261) (AAAI 2017) | 
+  | MobileNet         | [MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications](https://arxiv.org/abs/1704.04861) | 
+  | MobileNetV2       | [MobileNetV2: Inverted Residuals and Linear Bottlenecks](https://arxiv.org/abs/1801.04381) (CVPR 2018) | 
+  | DenseNet121       | [Densely Connected Convolutional Networks](https://arxiv.org/abs/1608.06993) (CVPR 2017 Best Paper Award) | 
+  | DenseNet169       | [Densely Connected Convolutional Networks](https://arxiv.org/abs/1608.06993) (CVPR 2017 Best Paper Award) | 
+  | DenseNet201       | [Densely Connected Convolutional Networks](https://arxiv.org/abs/1608.06993) (CVPR 2017 Best Paper Award) | 
+  | NASNetMobile      | [Learning Transferable Architectures for Scalable Image Recognition](https://arxiv.org/abs/1707.07012) | 
+  | NASNetLarge       | [Learning Transferable Architectures for Scalable Image Recognition](https://arxiv.org/abs/1707.07012) | 
+  | EfficientNetB0    | [EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks](https://arxiv.org/abs/1905.11946) (ICML 2019) | 
+  | EfficientNetB1    | [EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks](https://arxiv.org/abs/1905.11946) (ICML 2019) | 
+  | EfficientNetB2    | [EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks](https://arxiv.org/abs/1905.11946) (ICML 2019) | 
+  | EfficientNetB3    | [EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks](https://arxiv.org/abs/1905.11946) (ICML 2019) | 
+  | EfficientNetB4    | [EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks](https://arxiv.org/abs/1905.11946) (ICML 2019) | 
+  | EfficientNetB5    | [EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks](https://arxiv.org/abs/1905.11946) (ICML 2019) | 
+  | EfficientNetB6    | [EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks](https://arxiv.org/abs/1905.11946) (ICML 2019) | 
+  | EfficientNetB7    | [EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks](https://arxiv.org/abs/1905.11946) (ICML 2019) | 
+
+The following graphs show the accuracy of these models. *These were sourced from the [tensorflow github repository](https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet) describing EfficientNet.
+<table border="0">
+<tr>
+    <td>
+    <img src="./figures/params_efficientnet.png" width="100%" />
+    </td>
+    <td>
+    <img src="./figures/flops_efficientnet.png", width="100%" />
+    </td>
+</tr>
+</table>
 
 #### CNN for Image Classification
 We will be using an existing model in Keras along with weightings from ImageNet
