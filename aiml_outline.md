@@ -20,6 +20,25 @@
     - https://openai.com/blog/adversarial-example-research/
 - Where to go for more information on different models?
 
+## What kinds of ethical and social issues can arise from the use of AI / ML?
+
+### Papers and Articles
+- [Thinking about 'ethics' in the ethics of AI](https://aihub.org/2020/04/16/thinking-about-ethics-in-the-ethics-of-ai/)
+- [Papers from the 2017 AAAI Workshop - AI, Ethics, and Society](https://aaai.org/Library/Workshops/ws17-02.php)
+
+### Case Studies
+- Facial recognition  
+  [Automated Inference on Criminality using Face Images](https://arxiv.org/abs/1611.04135)  
+  We are the first to study automated face-induced inference on criminality. By extensive experiments and vigorous cross validations, we have demonstrated that via supervised machine learning, data-driven face classifiers are able to make reliable inference on criminality. Furthermore, we have discovered that a law of normality for faces of noncriminals. After controlled for race, gender and age, the general law-biding public have facial appearances that vary in a significantly lesser degree than criminals.
+ 
+- Resume screening  
+  [An overview of ethical issues in using AI systems in hiring with a case study of Amazon’s AI based hiring tool](https://www.researchgate.net/profile/Akhil_Kodiyan/publication/337331539_An_overview_of_ethical_issues_in_using_AI_systems_in_hiring_with_a_case_study_of_Amazon's_AI_based_hiring_tool/links/5dd2aa8d4585156b351d330a/An-overview-of-ethical-issues-in-using-AI-systems-in-hiring-with-a-case-study-of-Amazons-AI-based-hiring-tool.pdf)
+   
+### What is Fairness?
+- [An Intersectional Definition of Fairness](https://arxiv.org/pdf/1807.08362.pdf)
+- [AI Fairness 360](https://github.com/ibm/aif360)
+
+## Workshop
 For this workshop, we are not going to create a machine learning model from scratch. However, we will dive into the parts that make up a deep learning model, with code examples, to hopefully remove some of the mystery behind them. The tool we are using, Keras, provides the flexibility to use commonly used models or to design your own models. In this workshop we will focus on image classification using a convolution neural network. If you are unfamiliar with the term convolution, we will describe it in more detail below.
 
 ## Why are we using Keras and Python in this workshop?
@@ -117,10 +136,22 @@ https://towardsdatascience.com/intuitively-understanding-convolutions-for-deep-l
   - ImageNet - an image database organized according to the WordNet hierarchy (currently only the nouns)
   - Keras has functionality to pull down a handful of common datasets
     - https://keras.io/api/datasets/
+  - For more in depth datasets
+    - https://www.tensorflow.org/datasets/catalog/overview
 ### Types of training / learning
 - Supervised learning
+  - The person provides the input and output patterns for the model to learn
+  - Supervised learning is typically done in the context of classification, when we want to map input to output labels, or regression, when we want to map input to a continuous output. Common algorithms in supervised learning include logistic regression, naive bayes, support vector machines, artificial neural networks, and random forests. In both regression and classification, the goal is to find specific relationships or structure in the input data that allow us to effectively produce correct output data. [[5](https://towardsdatascience.com/supervised-vs-unsupervised-learning-14f68e32ea8d)]
 - Unsupervised learning
-- Reinforcement learning
+  - The model has to discover features from the input dataset on its own
+  - The most common tasks within unsupervised learning are clustering, representation learning, and density estimation. In all of these cases, we wish to learn the inherent structure of our data without using explicitly-provided labels. Some common algorithms include k-means clustering, principal component analysis, and autoencoders. Since no labels are provided, there is no specific way to compare model performance in most unsupervised learning methods. [[5](https://towardsdatascience.com/supervised-vs-unsupervised-learning-14f68e32ea8d)]
+- Reinforcement learning (semi-supervised learning)
+  - Deals with the type of problems where an agent must learn behavior through trial-and-error interactions with a dynamic environment. [[3](https://doi.org/10.1613/jair.301)]
+  ![Markov Decision Process](./figures/markov_decision_process.png)
+  - Some of the potential applications for this type of machine learning include robotics, chemistry, personalized recommendations, and games. An example is AlphaGO and its derivatives. [[4](https://towardsdatascience.com/applications-of-reinforcement-learning-in-real-world-1a94955bcd12)]
+- Transfer learning
+  - Utilizes a model trained on one problem is used in some ay on a second related problem [[6](https://machinelearningmastery.com/how-to-use-transfer-learning-when-developing-convolutional-neural-network-models/)]
+  - https://keras.io/guides/transfer_learning/
 
 ### Model Fitting
 
@@ -232,8 +263,30 @@ The following graphs show the accuracy of these models. *These were sourced from
 
 #### CNN for Image Classification
 We will be using an existing model in Keras along with weightings from ImageNet
-    
-    
+```python
+from keras.applications.resnet50 import ResNet50
+from keras.preprocessing import image
+from keras.applications.resnet50 import preprocess_input, decode_predictions
+import numpy as np
+
+model = ResNet50(weights='imagenet')
+
+img_path = 'figures/chili-dog-horiz-a-1600.jpg'
+img = image.load_img(img_path, target_size=(224, 224))
+x = image.img_to_array(img)
+x = np.expand_dims(x, axis=0)
+x = preprocess_input(x)
+
+preds = model.predict(x)
+# decode the results into a list of tuples (class, description, probability)
+# (one such list for each sample in the batch)
+print('Predicted:', decode_predictions(preds, top=3))
+```
+Result:
+```
+Predicted: [[('n07697537', 'hotdog', 0.9996661), ('n07873807', 'pizza', 0.00024167488), ('n07697313', 'cheeseburger', 4.342605e-05)]]
+```
+
 ## Aditional information and examples
 - https://keras.io/examples/
 
@@ -242,3 +295,7 @@ We will be using an existing model in Keras along with weightings from ImageNet
 # References
 1. "Deep Learning: An Overview" - https://doi.org/10.1145/3289402.3289538
 2. "7 Types of Neural Network Activation Functions: How to Choose?" - https://missinglink.ai/guides/neural-network-concepts/7-types-neural-network-activation-functions-right/
+3. "Reinforcement Learning: A Survey" - https://doi.org/10.1613/jair.301
+4. "Applications of Reinforcement Learning in Real World" - https://towardsdatascience.com/applications-of-reinforcement-learning-in-real-world-1a94955bcd12
+5. "Supervised vs. Unsupervised Learning" - https://towardsdatascience.com/supervised-vs-unsupervised-learning-14f68e32ea8d
+6. "Transfer Learning in Keras with Computer Vision Models" - https://machinelearningmastery.com/how-to-use-transfer-learning-when-developing-convolutional-neural-network-models/
