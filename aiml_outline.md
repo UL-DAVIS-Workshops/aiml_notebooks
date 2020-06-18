@@ -20,7 +20,7 @@
     - https://openai.com/blog/adversarial-example-research/
 - Where to go for more information on different models?
 
-## What kinds of ethical and social issues can arise from the use of AI / ML?
+## What kinds of ethical, social, or legal issues can arise from the use of AI / ML?
 
 ### Papers and Articles
 - [Thinking about 'ethics' in the ethics of AI](https://aihub.org/2020/04/16/thinking-about-ethics-in-the-ethics-of-ai/)
@@ -37,6 +37,15 @@
 ### What is Fairness?
 - [An Intersectional Definition of Fairness](https://arxiv.org/pdf/1807.08362.pdf)
 - [AI Fairness 360](https://github.com/ibm/aif360)
+
+### What issues exist around datasets for training ML models?
+- Terms of Service
+  - Clearview.ai is a company specializing in facial recognition that is scraping images from social media accounts, despite the TOS of those sites disallowing those activities.
+- Copyright and Licensing
+  - ImageNet is a resource for obtaining labeled images. They have a disclaimer on their download page indicating that they do not own the copyrights of the images within their dataset. 
+  - Are models trained on copyrighted digital objects considered a derivative or adaptation of those objects? Does a trained model using copyrighted materials fall under fair use? [A Legal Perspective on Training Models for Natural Language Processing](http://eprints.gla.ac.uk/159231/13/159231.pdf)
+- Privacy
+  - Personally Identifiable Information
 
 ## Workshop
 For this workshop, we are not going to create a machine learning model from scratch. However, we will dive into the parts that make up a deep learning model, with code examples, to hopefully remove some of the mystery behind them. The tool we are using, Keras, provides the flexibility to use commonly used models or to design your own models. In this workshop we will focus on image classification using a convolution neural network. If you are unfamiliar with the term convolution, we will describe it in more detail below.
@@ -120,6 +129,10 @@ https://towardsdatascience.com/intuitively-understanding-convolutions-for-deep-l
 ## How do we go from zero to a working machine learning model.
 ### Datasets
 - Collect
+  - Web scraping
+  - API access
+  - Research data
+  - Online dataset collections
 - Validate
 - Preprocess - Normalize / rescale / augment
   - Why should we preprocess the data?
@@ -286,6 +299,48 @@ Result:
 ```
 Predicted: [[('n07697537', 'hotdog', 0.9996661), ('n07873807', 'pizza', 0.00024167488), ('n07697313', 'cheeseburger', 4.342605e-05)]]
 ```
+
+This model did a decent job at detecting that we had a hot dog with 99.9% probability, but it did not recognize that it also belonged to the subgroup chili dog. Why didn't it recognize this subgroup? How can we improve this model to distinguish a chili dog from other types of hotdogs?
+
+#### Retrain our Image Classification Model to Recognize Chili Dogs
+- Obtain dataset of chili dogs for training and testing. Create the directory structure "data/images/chilidog/" and run the following code to obtain a raw dataset.
+  ```python
+  chilidog_urls = "http://image-net.org/api/text/imagenet.synset.geturls?wnid=n07865105"
+
+  for i, image_url in enumerate(requests.get(chilidog_urls).iter_lines()):
+      if image_url:
+          try:
+              image_request = requests.get(image_url, timeout=3)
+          except requests.exceptions.SSLError:
+              print("SSL Error - moving on")
+              continue
+          except requests.exceptions.Timeout:
+              print("Timeout - moving on")
+              continue
+          except requests.exceptions.ConnectionError:
+              print("Connection Error - moving on")
+              continue
+          if image_request.status_code == requests.codes.ok:
+              if "image" in image_request.headers['content-type']:
+                  with open(f"data/images/chilidog/{i}", "wb") as f:
+                      f.write(image_request.content)
+                      print(f"Saved {image_url}")
+  ```
+  The above code returns images that have a lot of noise, inconsistencies, and errors - some are not, in fact, chili dogs. For example, those of you familiar with Chicago style hotdogs will recognize the following image. There is no chili on those hotdogs! Can you see any other issues with this image?  
+  ![Chicago style hotdog](figures/chicago_dog.jpg)
+
+  The web scraping code results in raw data that still needs to be cleaned. After manually cleaning, we can leverage Keras to augment these to generate additional images for our dataset.
+
+- Why would we apply Transfer Learning to a pre-trained model over starting from scratch?
+  https://keras.io/guides/transfer_learning/
+
+The following is an example workflow outlined in Keras' documentation:
+1. Instantiate a base model and load pre-trained weights into it.
+2. Freeze all layers in the base model by setting trainable = False.
+3. Create a new model on top of the output of one (or several) layers from the base model.
+4. Train your new model on your new dataset.
+
+TODO: Add code examples for preprocessing image dataset and retraining ResNet weightings
 
 ## Aditional information and examples
 - https://keras.io/examples/
