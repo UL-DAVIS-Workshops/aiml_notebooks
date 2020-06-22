@@ -16,6 +16,7 @@
 - What challenges do we face when developing and training AI / ML models?
   - Amplification of biases
     - how can we build trust into the decisions from these black boxes?
+    - Are all biases bad? https://www.edge.org/response-detail/25491
   - They can be tricked - adversarial example attacks 
     - https://openai.com/blog/adversarial-example-research/
 - Where to go for more information on different models?
