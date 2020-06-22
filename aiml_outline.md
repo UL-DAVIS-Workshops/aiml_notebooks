@@ -1,7 +1,7 @@
 ## What is AI / ML?
 - What differentiates Artifical Intelegence from Machine Learning?
-  - AI is...
-  - ML is...
+  - Artificial Intelligence (AI) as an overarching category the encases many other methodologies, disciplines, and practices. AI is anything to do with making machines smart.
+  - Machine Learning (ML) is a subset of AI. It refers to a system or machine that can make itself smarter without human interaction. And Deep Learning is a subset of ML.
 - What differentiates a Deep Learning model from other Machine Learning models?
   - Number of hidden layers - what is a hidden layer?
 - What makes Machine Learning models different from other statistical models, algorithms, or functions?
@@ -12,7 +12,12 @@
   - Natural language processing
     - sentiment analysis
     - chatbots
-  - etc
+  - Behavior Prediction
+    - Preference Recommendations
+    - Inventory Management
+  - Diagnosis
+    - Medical Diagnosis
+    - Vehicle Diagnosis
 - What challenges do we face when developing and training AI / ML models?
   - Amplification of biases
     - how can we build trust into the decisions from these black boxes?
