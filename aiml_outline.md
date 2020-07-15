@@ -19,7 +19,7 @@
     - Medical Diagnosis
     - Vehicle Diagnosis
 - What challenges do we face when developing and training AI / ML models?
-  - Amplification of biases
+  - Unexpected biases
     - how can we build trust into the decisions from these black boxes?
     - Are all biases bad? https://www.edge.org/response-detail/25491
   - They can be tricked - adversarial example attacks 
@@ -51,7 +51,8 @@
   - ImageNet is a resource for obtaining labeled images. They have a disclaimer on their download page indicating that they do not own the copyrights of the images within their dataset. 
   - Are models trained on copyrighted digital objects considered a derivative or adaptation of those objects? Does a trained model using copyrighted materials fall under fair use? [A Legal Perspective on Training Models for Natural Language Processing](http://eprints.gla.ac.uk/159231/13/159231.pdf)
 - Privacy
-  - Personally Identifiable Information
+  - In typical environments, training data is collected into a central repository. This can pose risks to collected Personally Identifiable Information.
+  - [A Federated Learning Framework for Privacy-preserving and Parallel Training](https://arxiv.org/abs/2001.09782)
 
 ## Workshop
 For this workshop, we are not going to create a machine learning model from scratch. However, we will dive into the parts that make up a deep learning model, with code examples, to hopefully remove some of the mystery behind them. The tool we are using, Keras, provides the flexibility to use commonly used models or to design your own models. In this workshop we will focus on image classification using a convolution neural network. If you are unfamiliar with the term convolution, we will describe it in more detail below.
@@ -68,6 +69,7 @@ Python is currently one of the most used programming languages in the scientific
 ## What makes up a Convolution Neural Network (CNN)?
 A CNN is comprised of an input layer, many hidden layers, and an output layer
 TODO: add example image
+https://medium.com/technologymadeeasy/the-best-explanation-of-convolutional-neural-networks-on-the-internet-fbb8b1ad5df8
 ### Layers
 #### Neurons / Activation Functions
 Activation functions are mathematical equations that determine the output of a neural network. The function is attached to each neuron in the network, and determines whether it should be activated (“fired”) or not, based on whether each neuron’s input is relevant for the model’s prediction. Activation functions also help normalize the output of each neuron to a range between 1 and 0 or between -1 and 1. [[2](https://missinglink.ai/guides/neural-network-concepts/7-types-neural-network-activation-functions-right/)]
@@ -129,17 +131,27 @@ https://towardsdatascience.com/intuitively-understanding-convolutions-for-deep-l
 #### Filters
 - concatenation of multiple kernels
 #### Pooling
+Pooling layers reduce the spatial size of the representation to reduce the amount of parameters and computations in the network.
 - Max
 - Average
 
-## How do we go from zero to a working machine learning model.
+Example of a max pooling function:
+
+![pictorial max pool figure](./figures/MaxpoolSample2.png)
+
+!["real life" max pool figure](./figures/MaxpoolSample.png)
+
+## How do we go from zero to a working machine learning model?
 ### Datasets
+Machine learning models are trained against datasets to extract features
 - Collect
   - Web scraping
   - API access
   - Research data
   - Online dataset collections
-- Validate
+- Validate / Clean
+  - Data cleansing tools like Openrefine are good at tabular data
+  - Crowdsourcing or human classification, for example CAPTCHA
 - Preprocess - Normalize / rescale / augment
   - Why should we preprocess the data?
       - Increase efficiency of our model training
@@ -157,6 +169,10 @@ https://towardsdatascience.com/intuitively-understanding-convolutions-for-deep-l
     - https://keras.io/api/datasets/
   - For more in depth datasets
     - https://www.tensorflow.org/datasets/catalog/overview
+    - To install
+      ```bash
+      conda install tensorflow-datasets
+      ```
 ### Types of training / learning
 - Supervised learning
   - The person provides the input and output patterns for the model to learn
