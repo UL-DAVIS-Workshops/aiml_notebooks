@@ -131,15 +131,56 @@ https://towardsdatascience.com/intuitively-understanding-convolutions-for-deep-l
 #### Filters
 - concatenation of multiple kernels
 #### Pooling
-Pooling layers reduce the spatial size of the representation to reduce the amount of parameters and computations in the network.
+Pooling is a down sampling to reduce the dimensionality, it makes the representations smaller and more manageable, and preserves spatial invariance.
+
+The most common methods include:
 - Max
 - Average
 
-Example of a max pooling function:
+Example figures of a max pooling from [Computer Science Wiki](https://computersciencewiki.org/index.php/Max-pooling_/_Pooling):
 
 ![pictorial max pool figure](./figures/MaxpoolSample2.png)
 
 !["real life" max pool figure](./figures/MaxpoolSample.png)
+
+
+Example code or [Jupyter Notebook](./Pooling.ipynb):
+
+```Python
+import numpy as np
+from keras.layers import MaxPooling2D
+from keras.backend import constant, reshape
+
+values = np.array([
+    [  12,   20,   30,    0],
+    [   8,   12,    2,    0],
+    [  34,   70,   37,    4],
+    [ 112,  100,   25,   12]
+])
+
+# define our pooling method
+maxpool2d = MaxPooling2D(pool_size=(2, 2))
+
+# Load values into a tensor
+value_as_tensor = constant(values)
+
+# reshape tensor for pooling
+reshaped_tensor_value = reshape(value_as_tensor, shape=(1,4,4,1))
+
+#apply max pooling
+maxpool2d(reshaped_tensor_value)
+```
+
+Result:
+
+```
+<tf.Tensor: shape=(1, 2, 2, 1), dtype=float32, numpy=
+array([[[[ 20.],
+         [ 30.]],
+
+        [[112.],
+         [ 37.]]]], dtype=float32)>
+```
 
 ## How do we go from zero to a working machine learning model?
 ### Datasets
