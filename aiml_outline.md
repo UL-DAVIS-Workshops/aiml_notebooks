@@ -28,7 +28,8 @@
 
 ## What kinds of ethical, social, or legal issues can arise from the use of AI / ML?
 
-### Papers and Articles
+### Papers, Articles, and Blogs
+- [What Can AI Teach Us about Bias and Fairness?](https://www.anaconda.com/blog/machine-learning-bias-fairness)
 - [Thinking about 'ethics' in the ethics of AI](https://aihub.org/2020/04/16/thinking-about-ethics-in-the-ethics-of-ai/)
 - [Papers from the 2017 AAAI Workshop - AI, Ethics, and Society](https://aaai.org/Library/Workshops/ws17-02.php)
 
@@ -36,7 +37,10 @@
 - Facial recognition  
   [Automated Inference on Criminality using Face Images](https://arxiv.org/abs/1611.04135)  
   We are the first to study automated face-induced inference on criminality. By extensive experiments and vigorous cross validations, we have demonstrated that via supervised machine learning, data-driven face classifiers are able to make reliable inference on criminality. Furthermore, we have discovered that a law of normality for faces of noncriminals. After controlled for race, gender and age, the general law-biding public have facial appearances that vary in a significantly lesser degree than criminals.
- 
+
+- Predicting future criminals
+  [Machine Bias](https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing)
+
 - Resume screening  
   [An overview of ethical issues in using AI systems in hiring with a case study of Amazon’s AI based hiring tool](https://www.researchgate.net/profile/Akhil_Kodiyan/publication/337331539_An_overview_of_ethical_issues_in_using_AI_systems_in_hiring_with_a_case_study_of_Amazon's_AI_based_hiring_tool/links/5dd2aa8d4585156b351d330a/An-overview-of-ethical-issues-in-using-AI-systems-in-hiring-with-a-case-study-of-Amazons-AI-based-hiring-tool.pdf)
    
