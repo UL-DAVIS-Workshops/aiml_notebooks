@@ -28,6 +28,22 @@
 
 ## What kinds of ethical, social, or legal issues can arise from the use of AI / ML?
 
+### Ethics in AI/ML
+- It is the duty of the developer/creator to insure ethical outcomes
+- Bias is a prejudice in data that goes into a model/algorithm producing discrimination
+  - Example: Amazon's hiring algorithm (in 2015) was more likely to move Men forward than Women based on past data.
+    - See link in "Case Studies"
+  - Can data represent "what should be" and not "what is"?
+- Data set biases
+  - Almost all data sets will have some bias (they can only be a representation of the whole, something will be missing)
+  - Be aware of the biases
+  - Be aware of the consequences of the biases
+  - Garbage in garbage out
+- Technical biases
+  - Bias in how the algorithm/model is programmed or used
+  - Example: Turnitin, a plagiarism checker that, by default, was biased against non-native English speakers
+  - Be aware of the context in which your program is being used
+
 ### Papers and Articles
 - [Thinking about 'ethics' in the ethics of AI](https://aihub.org/2020/04/16/thinking-about-ethics-in-the-ethics-of-ai/)
 - [Papers from the 2017 AAAI Workshop - AI, Ethics, and Society](https://aaai.org/Library/Workshops/ws17-02.php)
@@ -52,6 +68,11 @@
   - Are models trained on copyrighted digital objects considered a derivative or adaptation of those objects? Does a trained model using copyrighted materials fall under fair use? [A Legal Perspective on Training Models for Natural Language Processing](http://eprints.gla.ac.uk/159231/13/159231.pdf)
 - Privacy
   - Personally Identifiable Information
+- Public Domain is safe to use.
+- Creative Commons licensed data is a good option.
+- In the EU, copyrighted data can still be used for Text and Data Mining. And research institutions are exempt from some copyright laws. 
+- Legally, in the US, using copyrighted data such as images for training models seems to be covered under the fair use doctrine. It follows that using the data in a different function than was intended by the original work does not create a substitution.
+This is known as "transformative use." 
 
 ## Workshop
 For this workshop, we are not going to create a machine learning model from scratch. However, we will dive into the parts that make up a deep learning model, with code examples, to hopefully remove some of the mystery behind them. The tool we are using, Keras, provides the flexibility to use commonly used models or to design your own models. In this workshop we will focus on image classification using a convolution neural network. If you are unfamiliar with the term convolution, we will describe it in more detail below.
